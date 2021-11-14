@@ -105,20 +105,27 @@ var Action = function (_React$Component3) {
 var Options = function (_React$Component4) {
   _inherits(Options, _React$Component4);
 
-  function Options() {
+  // override the constructor of the parent class, to fix this-keyword binding issue
+  function Options(props) {
     _classCallCheck(this, Options);
 
-    return _possibleConstructorReturn(this, (Options.__proto__ || Object.getPrototypeOf(Options)).apply(this, arguments));
+    // constructor is not an event handler, so context is correct by default
+    var _this4 = _possibleConstructorReturn(this, (Options.__proto__ || Object.getPrototypeOf(Options)).call(this, props));
+
+    _this4.handleRemoveAll = _this4.handleRemoveAll.bind(_this4);
+    return _this4;
   }
 
   _createClass(Options, [{
     key: "handleRemoveAll",
     value: function handleRemoveAll() {
-      alert("handleRemoveAll");
+      // this is an event handler, so it will lose its context, so we need to bind it
+      console.log(this.props.options);
     }
   }, {
     key: "render",
     value: function render() {
+      // render is not an event handler, so it's not gonna lose its context
       return React.createElement(
         "ol",
         null,

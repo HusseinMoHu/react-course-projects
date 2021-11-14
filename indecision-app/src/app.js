@@ -40,10 +40,18 @@ class Action extends React.Component {
 }
 
 class Options extends React.Component {
+  // override the constructor of the parent class, to fix this-keyword binding issue
+  constructor(props) {
+    super(props);
+    // constructor is not an event handler, so context is correct by default
+    this.handleRemoveAll = this.handleRemoveAll.bind(this);
+  }
   handleRemoveAll() {
-    alert("handleRemoveAll");
+    // this is an event handler, so it will lose its context, so we need to bind it
+    console.log(this.props.options);
   }
   render() {
+    // render is not an event handler, so it's not gonna lose its context
     return (
       <ol>
         <button onClick={this.handleRemoveAll}>Remove All</button>
